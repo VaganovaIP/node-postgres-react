@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import PropTypes from "prop-types";
 import '../index.css'
+import axios from 'axios';
 
 export function Message({name}) {
     Message.propTypes={
@@ -10,10 +11,10 @@ export function Message({name}) {
     const [album, setAlbum] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:8080/albums')
-        .then(response => {
-            setAlbum(response.data);
-        })
+        axios.get('http://localhost:8080/albums')
+            .then(response => {
+                setAlbum(response.data);
+            })
     },[]);
 
     const [count, setCount] = useState(0);
@@ -26,12 +27,14 @@ export function Message({name}) {
                         () => {
                             setCount(count+1);
                         }
-            }>{count} {album}</button>
-{/*            <ul>
-                {album.map((item) => {
-                    <li> {item.title}  {item.artist}</li>
+                    }>{count} {album.title}</button>
+           <ul>
+                {album.map((item, id) => {
+                    console.log(item.title);
+                    return <li> {item.title}  {item.artist}</li>
+                    
                 })}
-            </ul>*/}
+            </ul>
         </>
     )
 }
